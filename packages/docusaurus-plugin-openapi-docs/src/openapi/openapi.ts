@@ -473,6 +473,10 @@ function bindCollectionToApiItems(
 
     if (item.request.url.hash !== undefined) {
       path += "#" + item.request.url.hash;
+      item.request.url.hash = "";
+      if (item.request.url.path[item.request.url.path.length - 1] === "") {
+        item.request.url.path.pop();
+      }
     }
 
     const apiItem = items.find((item) => {
