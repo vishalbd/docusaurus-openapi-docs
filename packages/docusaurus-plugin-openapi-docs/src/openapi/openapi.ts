@@ -467,9 +467,14 @@ function bindCollectionToApiItems(
 ) {
   postmanCollection.forEachItem((item: any) => {
     const method = item.request.method.toLowerCase();
-    const path = item.request.url
+    let path = item.request.url
       .getPath({ unresolved: true }) // unresolved returns "/:variableName" instead of "/<type>"
       .replace(/(?<![a-z0-9-_]+):([a-z0-9-_]+)/gi, "{$1}"); // replace "/:variableName" with "/{variableName}"
+
+    if (item.request.url.hash !== undefined) {
+      path += "#" + item.request.url.hash;
+    }
+
     const apiItem = items.find((item) => {
       if (item.type === "info" || item.type === "tag") {
         return false;
